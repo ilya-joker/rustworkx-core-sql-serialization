@@ -4,5 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-diesel = "2.2.6"
+diesel = { version = "2.2.6", features = ["sqlite"] }
 rustworkx-core = "0.15.1"
+
+[[bin]]
+name = "rustworkx-core-sql-serialization-bin"
+path = "src/main.rs"
