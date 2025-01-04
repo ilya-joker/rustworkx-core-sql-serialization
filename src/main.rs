@@ -1,6 +1,18 @@
+use rustworkx_core_sql_serialization::{self as lib, connect};
+
 fn main() {
-    match std::env::var("DBPATH") {
-        Ok(val) => println!("{val:?}"),
-        Err(e) => println!("couldn't interpret {e}"),
+    let dbpath = match std::env::var("DBPATH") {
+        Ok(val) => val,
+        Err(e) => {
+            println!("couldn't interpret {e}");
+            return;
+        }
+    };
+    match connect(&dbpath) {
+        Ok(_val) => println!("Connected"),
+        Err(e) => {
+            println!("couldn't interpret {e}");
+            return;
+        }
     }
 }
