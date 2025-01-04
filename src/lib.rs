@@ -1,8 +1,11 @@
 use diesel::{
     migration::MigrationConnection, sqlite::SqliteConnection, Connection, ConnectionError,
+    RunQueryDsl,
 };
 use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
+use models::Vertex;
 use rustworkx_core::petgraph::graph::DiGraph;
+use schema::vertices;
 
 pub mod models;
 pub mod schema;
@@ -48,7 +51,14 @@ impl std::fmt::Display for Error {
 }
 
 impl GraphConnection {
-    pub fn save(self, graph: DiGraph<String, String>) {}
+    pub fn save(&mut self, graph: DiGraph<Vertex, String>) -> Result<(), Error> {
+        for n in graph.node_indices() {
+            diesel::insert_into(vertices::table)
+                .values(&graph[n])
+                .execute(&mut self.connection)?;
+        }
+        Ok(())
+    }
 }
 
 pub fn connect(database_url: &str) -> Result<GraphConnection, Error> {
