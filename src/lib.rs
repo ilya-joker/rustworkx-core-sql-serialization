@@ -3,6 +3,9 @@ use diesel::{
     ConnectionResult,
 };
 
+pub mod models;
+pub mod schema;
+
 pub struct Error {
     text: String,
 }
