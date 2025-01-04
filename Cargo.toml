@@ -1,0 +1,8 @@
+[package]
+name = "rustworkx-core-sql-serialization"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+diesel = "2.2.6"
+rustworkx-core = "0.15.1"
